@@ -113,6 +113,14 @@ def compute_significance():
 
     print(f"Decision: {decision}")
 
+        # =========================
+    # RETURN VALUES
+    # =========================
+    return {
+        "p_value": p_value,
+        "lift": lift
+    }
+
 
 if __name__ == "__main__":
     compute_significance()
