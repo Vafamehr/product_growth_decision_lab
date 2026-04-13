@@ -139,7 +139,8 @@ def compute_top_bucket_summary(df: pd.DataFrame, top_fraction: float = 0.2) -> d
     return summary
 
 
-def main() -> None:
+# ✅ FIXED NAME HERE
+def compute_model_diagnostics() -> None:
     os.makedirs(DIAGNOSTICS_DIR, exist_ok=True)
 
     predictions_df = load_model_predictions()
@@ -167,5 +168,6 @@ def main() -> None:
     print(f"Lift vs Overall: {top_bucket_summary['lift_vs_overall']:.4f}")
 
 
+
 if __name__ == "__main__":
-    main()
+    compute_model_diagnostics()

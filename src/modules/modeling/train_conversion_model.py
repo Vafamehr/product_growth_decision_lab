@@ -77,7 +77,7 @@ def build_model_pipeline() -> Pipeline:
     return model
 
 
-def train_conversion_model(modeling_df: pd.DataFrame) -> tuple[dict, Pipeline]:
+def fit_conversion_model(modeling_df: pd.DataFrame) -> tuple[dict, Pipeline]:
     feature_cols = [
         SIGNUP_DAY_COL,
         CHANNEL_COL,
@@ -143,14 +143,14 @@ def build_predictions_table(modeling_df: pd.DataFrame, model: Pipeline) -> pd.Da
     return predictions_df
 
 
-def main() -> None:
+def train_conversion_model() -> dict:
     os.makedirs(MODELING_DIR, exist_ok=True)
 
     users = pd.read_csv(USERS_PATH)
     events = pd.read_csv(EVENTS_PATH)
 
     modeling_df = build_user_level_dataset(users=users, events=events)
-    metrics, model = train_conversion_model(modeling_df=modeling_df)
+    metrics, model = fit_conversion_model(modeling_df=modeling_df)
     predictions_df = build_predictions_table(modeling_df=modeling_df, model=model)
 
     modeling_df.to_csv(MODEL_DATASET_PATH, index=False)
@@ -169,6 +169,8 @@ def main() -> None:
     print(f"Accuracy: {metrics['accuracy']:.4f}")
     print(f"ROC-AUC: {metrics['roc_auc']:.4f}")
 
+    return metrics
+
 
 if __name__ == "__main__":
-    main()
+    train_conversion_model()

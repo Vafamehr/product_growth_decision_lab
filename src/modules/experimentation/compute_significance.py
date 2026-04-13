@@ -1,4 +1,6 @@
 import math
+import json
+import os
 
 import numpy as np
 import pandas as pd
@@ -8,6 +10,9 @@ from src.common.paths import ARTIFACTS_DIR
 
 USERS_PATH = ARTIFACTS_DIR / "data" / "users.csv"
 EVENTS_PATH = ARTIFACTS_DIR / "data" / "events.csv"
+
+OUTPUT_DIR = ARTIFACTS_DIR / "experiments"
+OUTPUT_PATH = OUTPUT_DIR / "experiment_significance.json"
 
 
 def compute_significance():
@@ -82,9 +87,7 @@ def compute_significance():
     se = np.sqrt(p_pool * (1 - p_pool) * ((1 / n1) + (1 / n2)))
     z = (p2 - p1) / se
 
-    # Two-sided p-value
     p_value = 2 * (1 - 0.5 * (1 + math.erf(abs(z) / np.sqrt(2))))
-
     lift = (p2 - p1) / p1
 
     # =========================
@@ -98,7 +101,7 @@ def compute_significance():
     print(f"P-value:                    {p_value:.6f}")
 
     # =========================
-    # DECISION LAYER
+    # DECISION
     # =========================
     print("\n===== DECISION =====")
 
@@ -113,13 +116,26 @@ def compute_significance():
 
     print(f"Decision: {decision}")
 
-        # =========================
-    # RETURN VALUES
-    # =========================
-    return {
-        "p_value": p_value,
-        "lift": lift
+    result = {
+        "p_value": float(p_value),
+        "lift": float(lift),
+        "z_score": float(z),
+        "control_rate": float(p1),
+        "treatment_rate": float(p2),
+        "decision": decision,
     }
+
+    # =========================
+    # SAVE OUTPUT
+    # =========================
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+        json.dump(result, f, indent=2)
+
+    print(f"\nSaved to: {OUTPUT_PATH}")
+
+    return result
 
 
 if __name__ == "__main__":
