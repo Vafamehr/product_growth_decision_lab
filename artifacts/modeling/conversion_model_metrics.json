@@ -1,0 +1,15 @@
+{
+  "n_users": 5000,
+  "n_train": 4000,
+  "n_test": 1000,
+  "positive_rate": 0.1032,
+  "accuracy": 0.897,
+  "roc_auc": 0.6040577545431914,
+  "features_used": [
+    "signup_day",
+    "channel",
+    "user_type",
+    "experiment_group"
+  ],
+  "target": "converted"
+}

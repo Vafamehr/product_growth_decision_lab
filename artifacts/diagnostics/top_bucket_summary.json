@@ -1,0 +1,9 @@
+{
+  "top_fraction": 0.2,
+  "top_n_users": 1000,
+  "overall_conversion_rate": 0.1032,
+  "top_bucket_conversion_rate": 0.148,
+  "lift_vs_overall": 1.4341085271317828,
+  "avg_predicted_probability_top_bucket": 0.15226910059449292,
+  "avg_predicted_probability_overall": 0.1029943723086868
+}
